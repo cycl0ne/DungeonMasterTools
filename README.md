@@ -85,4 +85,4 @@ w  32 h  32
     1 1   1 1 1 1           1 1 
 ```
 
-Many Thanks to Christophe & Sphenx
+Many Thanks to ChristopheF & Sphenx
