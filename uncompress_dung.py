@@ -593,8 +593,7 @@ class LoadDungeon:
     def _dbg_print_dungeon(self, level):
         map_info = self.maps[level]
         txtmap= ""
-        print("  ----------------")
-        print(f"Map at Level {map_info['Level']}:")
+        print(f"\nMap at Level {map_info['Level']} ----------------")
         print(f"  RawMapDataByteOffset: {map_info['RawMapDataByteOffset']}")
         # print(f"  aUnreferenced: {map_info['aUnreferenced']}")
         # print(f"  bUnreferenced: {map_info['bUnreferenced']}")
@@ -610,21 +609,21 @@ class LoadDungeon:
         print(f"  DoorOrnamentCount: {map_info['DoorOrnamentCount']}")
         print(f"  DoorSet1: {map_info['DoorSet1']}, DoorSet0: {map_info['DoorSet0']}")
         print(f"  WallSet: {map_info['WallSet']}, FloorSet: {map_info['FloorSet']}")
-        print("  ----------------")
+        print("\nCreatures/Wall/Floor/Doors used ----------------")
 
         start_index = map_info['RawMapDataByteOffset']
 
-        print("start_index:", start_index, "len:", len(self.tile_data)) 
+        # print("start_index:", start_index, "len:", len(self.tile_data)) 
         array = [[0 for _ in range(map_info['Width']+1)] for _ in range(map_info['Height']+1)]
 
         w = (map_info['Width']+1)
         h = (map_info['Height']+1)
-        print('w ', w, "h ",h)
+        # print('w ', w, "h ",h)
         for x in range(w):
             for y in range(h):
                 array[y][x] = self.tile_data[start_index + y + (x * h)]
 
-
+        txtmap +="\n  "        
         for y in range(map_info['Height']+1):
             for x in range(map_info['Width']+1):
                 type = (array[y][x] >>5) & 0x7
@@ -632,8 +631,37 @@ class LoadDungeon:
                     txtmap += "  "
                 else:
                     txtmap += str(type)+" "
-            txtmap +="\n"
-        print(txtmap)            
+            txtmap +="\n  "
+        creaturetypecount  = map_info['CreatureTypeCount']
+        wallornamentcount  = map_info['WallOrnamentCount']
+        floorornamentcount = map_info['FloorOrnamentCount']
+        doordecocount      = map_info['DoorOrnamentCount']
+        map_info2 = self.maps[level+1]
+        map_info2['RawMapDataByteOffset']
+        buffer = self.tile_data[(start_index+(w*h)):]
+        # print("Check: Starting after Map:", start_index+(w*h), "reading until",
+        #       (start_index+(w*h))+creaturetypecount+wallornamentcount+floorornamentcount+doordecocount, 
+        #       " next map: ", map_info2['RawMapDataByteOffset'])
+
+        txt ="Creature: "
+        for c in range(creaturetypecount):
+            txt += str(buffer[c])+", "
+        txt+="\nWallOrnate: "
+        buffer = self.tile_data[(start_index+(w*h))+creaturetypecount:]
+        for c in range(wallornamentcount):
+            txt += str(buffer[c])+", "
+        txt+="\nFloorOrnate: "
+        buffer = self.tile_data[(start_index+(w*h))+creaturetypecount+wallornamentcount:]
+        for c in range(floorornamentcount):
+            txt += str(buffer[c])+", "
+        txt+="\nDoorDeco: "
+        buffer = self.tile_data[(start_index+(w*h))+creaturetypecount+wallornamentcount+floorornamentcount:]
+        for c in range(doordecocount):
+            txt += str(buffer[c])+", "
+        txt+="\n"
+        print(txt)               
+        print("MapData ----------------")
+        print(txtmap)
 
     def load(self, filename):
         with open(filename, 'rb') as file:
@@ -655,4 +683,4 @@ class LoadDungeon:
                 return self.extract_dungeon_dat(buffer)
             else:
                 print("Not a recognized Dungeon.dat file.")        
-
+        return None
