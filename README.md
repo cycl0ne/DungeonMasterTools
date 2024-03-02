@@ -1,30 +1,32 @@
 # DungeonMasterTools
-DungeonMaster Tools in Python for the Amiga/PC/Atari ST Game
+DungeonMasterTools is a collection of Tools in Python for the Amiga/PC/Atari ST Game:
 
-uncompress_dung.py - Will load and extract the Data in the Dungeon.dat file (At the moment only Big Endian!)
+* uncompress_dung.py - Will load and extract the Data in the Dungeon.dat file (At the moment only Big Endian!)
+* more coming soon
 
 use the class in your code like shown in main.py. After calling load(filename), you get a dictionary (not finished), but you can also access all data from the class itself:
 
-hdr -> Header of the File 
-maps[] -> Maps_Info Structure 
-thinglist[] -> List of all Doors, Creatures, Items, Sensors, ...
-tile_data -> binary data of the dungeon
-chksum -> Checksum of the file (if existent)
+* hdr -> Header of the File 
+* maps[] -> Maps_Info Structure 
+* thinglist[] -> List of all Doors, Creatures, Items, Sensors, ...
+* tile_data -> binary data of the dungeon
+* chksum -> Checksum of the file (if existent)
 
 for more info see: 
 http://dmweb.free.fr/?q=node/217
 
 example:
-'''
+```
 dungeon = LoadDungeon()
 dungeon.load("Dungeon.dat")
 print(dungeon.hdr['OrnamentRandomSeed'])
 print(dungeon.maps[0]['Difficulty'])
-'''
+```
 
 ---
 When you run: py main.py a debug of Level 1 is done:
-'''
+
+```
 Normal Dungeon.dat: extracting Data
 DungeonColumnCount 412
 Count SFTC:  3364
@@ -81,6 +83,6 @@ w  32 h  32
       1     1 1 1       1 1 6           1 1 1 1 1 1 5 1 1 1 1   
     1 1 1 1     1       1   1 1         1 1 1                   
     1 1   1 1 1 1           1 1 
-'''
+```
 
 Many Thanks to Christophe & Sphenx
