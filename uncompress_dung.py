@@ -643,18 +643,18 @@ class LoadDungeon:
         #       (start_index+(w*h))+creaturetypecount+wallornamentcount+floorornamentcount+doordecocount, 
         #       " next map: ", map_info2['RawMapDataByteOffset'])
 
-        txt ="Creature: "
+        txt ="  Creature: "
         for c in range(creaturetypecount):
             txt += str(buffer[c])+", "
-        txt+="\nWallOrnate: "
+        txt+="\n  WallOrnate: "
         buffer = self.tile_data[(start_index+(w*h))+creaturetypecount:]
         for c in range(wallornamentcount):
             txt += str(buffer[c])+", "
-        txt+="\nFloorOrnate: "
+        txt+="\n  FloorOrnate: "
         buffer = self.tile_data[(start_index+(w*h))+creaturetypecount+wallornamentcount:]
         for c in range(floorornamentcount):
             txt += str(buffer[c])+", "
-        txt+="\nDoorDeco: "
+        txt+="\n  DoorDeco: "
         buffer = self.tile_data[(start_index+(w*h))+creaturetypecount+wallornamentcount+floorornamentcount:]
         for c in range(doordecocount):
             txt += str(buffer[c])+", "
